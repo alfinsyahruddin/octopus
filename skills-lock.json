@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "af-project": {
+      "source": "alfinsyahruddin/af-project",
+      "sourceType": "github",
+      "skillPath": "skills/af-project/SKILL.md",
+      "computedHash": "fe55ad2f06102e2fa75f045d25cc99cc2c5247a0e4c3d7ef5e52bd40544d7e9d"
+    }
+  }
+}
