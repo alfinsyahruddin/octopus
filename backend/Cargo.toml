@@ -1,0 +1,31 @@
+[package]
+name = "backend"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "backend"
+path = "src/lib.rs"
+
+[[bin]]
+name = "backend"
+path = "src/main.rs"
+
+[dependencies]
+actix-cors = "0.7"
+actix-web = "4"
+async-trait = "0.1"
+chrono = { version = "0.4", features = ["serde"] }
+dotenvy = "0.15"
+reqwest = { version = "0.12", features = ["json"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+tokio = { version = "1", features = ["full"] }
+
+[profile.release]
+opt-level = 3          # Highest optimization for speed
+lto = "fat"            # Full link-time optimization across crate boundaries
+codegen-units = 1      # Maximize compiler optimization passes
+panic = "abort"        # Eliminates unwinding landing pads for smaller binary
+strip = "symbols"      # Strips debug symbols and dead code

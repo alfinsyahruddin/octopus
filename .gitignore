@@ -1,0 +1,11 @@
+.env
+.env.*
+!.env.example
+!.env.docker.example
+target/
+node_modules/
+build/
+.svelte-kit/
+test-results/
+playwright-report/
+blob-report/

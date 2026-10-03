@@ -1,0 +1,5 @@
+export default [
+  {
+    ignores: [".svelte-kit/", "build/", "dist/", "node_modules/"],
+  },
+];
