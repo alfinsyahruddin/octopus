@@ -1,0 +1,29 @@
+[package]
+name = "backend"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+actix-web = "4.9"
+actix-cors = "0.7"
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+sqlx = { version = "0.8", features = ["runtime-tokio-rustls", "postgres", "uuid", "chrono", "migrate"] }
+redis = { version = "0.27", features = ["tokio-comp", "connection-manager"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1", features = ["v4", "serde"] }
+thiserror = "2"
+validator = { version = "0.21", features = ["derive"] }
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+dotenvy = "0.15"
+argon2 = "0.5"
+jsonwebtoken = "9.3"
+async-trait = "0.1"
+
+[profile.release]
+opt-level = 3          # Highest optimization for speed
+lto = "fat"            # Full link-time optimization across crate boundaries
+codegen-units = 1      # Maximize compiler optimization passes
+panic = "abort"        # Eliminates unwinding landing pads for smaller binary
+strip = "symbols"      # Strips debug symbols and dead code

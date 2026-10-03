@@ -6,71 +6,9 @@ These optional components provide client-side authentication handling, reactive 
 
 ## 1. Authentication & Session State (`src/lib/helpers/auth.svelte.ts`)
 
-Manage authentication tokens, current user session state, and login/logout lifecycle:
+The client session state and authentication lifecycle starter implementation is [`auth.svelte.ts`](../../templates/frontend/src/lib/helpers/auth.svelte.ts). It manages token storage, current user session state, and automatic logout handling via `#lib/api.js`.
 
-```ts
-import { request, handleAuthFailure } from '#lib/api.js';
-
-export interface UserSession {
-	id: string;
-	email: string;
-	role: 'ADMIN' | 'MEMBER';
-}
-
-class AuthState {
-	user = $state<UserSession | null>(null);
-	isAuthenticated = $derived(this.user !== null);
-	isLoading = $state(true);
-
-	init() {
-		const token = typeof window !== 'undefined' ? localStorage.getItem('auth_token') : null;
-		if (token) {
-			this.fetchCurrentUser();
-		} else {
-			this.isLoading = false;
-		}
-	}
-
-	async fetchCurrentUser() {
-		this.isLoading = true;
-		try {
-			this.user = await request<UserSession>('/api/users/me');
-		} catch {
-			this.user = null;
-			handleAuthFailure();
-		} finally {
-			this.isLoading = false;
-		}
-	}
-
-	setSession(token: string, refreshToken: string, user: UserSession) {
-		localStorage.setItem('auth_token', token);
-		localStorage.setItem('refresh_token', refreshToken);
-		this.user = user;
-	}
-
-	logout() {
-		this.user = null;
-		handleAuthFailure();
-	}
-}
-
-export const authState = new AuthState();
-```
-
-### Client-Side Protected Route Guard (`src/routes/dashboard/+layout.ts`)
-Prevent unauthenticated users from seeing protected views:
-
-```ts
-import { redirect } from '@sveltejs/kit';
-
-export const load = () => {
-	const token = typeof window !== 'undefined' ? localStorage.getItem('auth_token') : null;
-	if (!token) {
-		throw redirect(302, '/login');
-	}
-};
-```
+Client-side route protection can be placed in [`+layout.ts`](../../templates/frontend/src/routes/dashboard/+layout.ts) to prevent unauthenticated users from seeing protected views.
 
 > [!NOTE]
 > Client navigation guards improve UX by avoiding blank screen flashes; the backend must independently authenticate and authorize every API request.

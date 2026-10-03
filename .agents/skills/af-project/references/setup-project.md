@@ -56,7 +56,7 @@ Phase 5: Baseline Verification ◄── Phase 4: Environment & Infra ◄──�
    mkdir -p backend/src/{clients,constants,entities,enums,guards,helpers,repositories,routes,services,setup}
    mkdir -p backend/{migrations,tests}
    ```
-3. Add standard dependencies from [Tech Stack](tech-stack.md) into `backend/Cargo.toml`.
+3. Add standard dependencies into `backend/Cargo.toml` (starter manifest available in [`templates/backend/Cargo.toml`](../templates/backend/Cargo.toml)).
 4. Implement foundation primitives from [Backend Foundations](backend/foundations.md) (ready-to-copy starter files available in [`templates/backend/src/`](../templates/backend/src/)):
    - `entities/base_response.rs` and `entities/app_response.rs`
    - `entities/app_error.rs`
@@ -81,35 +81,13 @@ Phase 5: Baseline Verification ◄── Phase 4: Environment & Infra ◄──�
      ```sh
      bun add --cwd frontend -d @sveltejs/adapter-static@^4
      ```
-   - Configure the adapter in `frontend/vite.config.ts` as shown below.
+   - Configure the adapter and Tailwind in `frontend/vite.config.ts` (starter configuration available in [`templates/frontend/vite.config.ts`](../templates/frontend/vite.config.ts)).
 3. Install Tailwind CSS v4 and iconography:
    ```sh
    bun add --cwd frontend -d @tailwindcss/vite tailwindcss
    bun add --cwd frontend @iconify/svelte
    ```
    Add `@import 'tailwindcss';` and `@custom-variant dark (&:where(.dark, .dark *));` to `src/app.css`.
-   Configure `vite.config.ts` (SvelteKit 3 configures the adapter and preprocessing directly in the Vite plugin):
-   ```ts
-   import adapter from '@sveltejs/adapter-static';
-   import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
-   import { sveltekit } from '@sveltejs/kit/vite';
-   import tailwindcss from '@tailwindcss/vite';
-   import { defineConfig } from 'vite';
-
-   export default defineConfig({
-     envPrefix: ['VITE_', 'PUBLIC_'],
-     plugins: [
-       tailwindcss(),
-       sveltekit({
-         preprocess: vitePreprocess(),
-         adapter: adapter({ fallback: 'index.html' })
-       })
-     ],
-     server: {
-       port: 3000
-     }
-   });
-   ```
 4. Declare `#lib/*` subpath imports in `package.json` and extend `$app/tsconfig` in `tsconfig.json` as shown in [Frontend Foundations](frontend/foundations.md#4-sveltekit-3-build--adapter-configuration).
 5. Set up foundation primitives from [Frontend Foundations](frontend/foundations.md) (ready-to-copy starter files available in [`templates/frontend/`](../templates/frontend/)).
 
